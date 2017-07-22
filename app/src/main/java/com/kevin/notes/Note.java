@@ -1,6 +1,8 @@
 package com.kevin.notes;
 
-public class Note {
+import java.io.Serializable;
+
+public class Note implements Serializable{
 
     public String title;
     public String value;

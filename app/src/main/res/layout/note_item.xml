@@ -5,7 +5,10 @@
                  android:minHeight="?attr/listPreferredItemHeight"
                  android:mode="twoLine"
                  android:paddingStart="?attr/listPreferredItemPaddingLeft"
-                 android:paddingEnd="?attr/listPreferredItemPaddingRight">
+                 android:paddingEnd="?attr/listPreferredItemPaddingRight"
+                 android:clickable="true"
+                 android:focusable="true"
+                 android:background="?android:attr/selectableItemBackground">
 
     <TextView android:id="@+id/note_title"
               android:layout_width="match_parent"
