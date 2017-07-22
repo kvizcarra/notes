@@ -8,9 +8,22 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
 
+    private OnNoteClickListener onNoteClickListener;
+
     private List<Note> notes;
+
+    interface OnNoteClickListener {
+        void onNoteClick(Note note);
+    }
+
+    void setOnNoteClickListener(OnNoteClickListener listener) {
+        onNoteClickListener = listener;
+    }
 
     public void setNotes (List<Note> notes) {
         // TODO: Use DiffUtil
@@ -34,17 +47,22 @@ class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         return notes != null ? notes.size() : 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        @BindView(R.id.note_title)
         TextView titleTextView;
+        @BindView(R.id.note_value)
         TextView valueTextView;
 
         ViewHolder(View view) {
             super(view);
-            titleTextView = (TextView) view.findViewById(R.id.note_title);
-            valueTextView = (TextView) view.findViewById(R.id.note_value);
+            ButterKnife.bind(this, view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onNoteClickListener.onNoteClick(notes.get(getAdapterPosition()));
         }
     }
-
-
 }
