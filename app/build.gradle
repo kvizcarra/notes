@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.kevin.notes"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -31,15 +31,17 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     /* Support Library */
-    final SUPPORT_LIBRARY_VERSION = '25.4.0'
+    final SUPPORT_LIBRARY_VERSION = '26.0.0'
     compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
     compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
 
     /* Android Architecture Components */
-    final ARCHITECTURE_COMPONENTS_VERSION = '1.0.0-alpha3'
+    final ARCHITECTURE_COMPONENTS_VERSION = '1.0.0-alpha6'
     compile "android.arch.lifecycle:runtime:$ARCHITECTURE_COMPONENTS_VERSION"
     compile "android.arch.lifecycle:extensions:$ARCHITECTURE_COMPONENTS_VERSION"
+    compile "android.arch.persistence.room:runtime:$ARCHITECTURE_COMPONENTS_VERSION"
+    annotationProcessor "android.arch.persistence.room:compiler:$ARCHITECTURE_COMPONENTS_VERSION"
 
     /* Other Google */
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
