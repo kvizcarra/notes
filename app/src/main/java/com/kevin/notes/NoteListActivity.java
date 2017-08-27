@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.kevin.notes.db.Note;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,6 +22,7 @@ import butterknife.OnClick;
 
 public class NoteListActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
+    private static final String TAG = NoteListActivity.class.getCanonicalName();
     private final LifecycleRegistry registry = new LifecycleRegistry(this);
     private NoteAdapter noteAdapter;
 
@@ -45,7 +48,7 @@ public class NoteListActivity extends AppCompatActivity implements LifecycleRegi
         noteAdapter.setOnNoteClickListener(new NoteAdapter.OnNoteClickListener() {
             @Override
             public void onNoteClick(Note note) {
-                openNoteDetail(note);
+                openNoteDetail(note.getId());
             }
         });
         recyclerView.setAdapter(noteAdapter);
@@ -71,7 +74,7 @@ public class NoteListActivity extends AppCompatActivity implements LifecycleRegi
     private void openNoteDetail() {
         NoteDetailActivity.start(this);
     }
-    private void openNoteDetail(Note note) {
-        NoteDetailActivity.start(this, note);
+    private void openNoteDetail(int noteId) {
+        NoteDetailActivity.start(this, noteId);
     }
 }
