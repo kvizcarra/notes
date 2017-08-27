@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kevin.notes.db.Note;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +30,7 @@ class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
     public void setNotes (List<Note> notes) {
         // TODO: Use DiffUtil
         this.notes = notes;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -38,8 +41,8 @@ class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.titleTextView.setText(notes.get(position).title);
-        holder.valueTextView.setText(notes.get(position).value);
+        holder.titleTextView.setText(notes.get(position).getTitle());
+        holder.valueTextView.setText(notes.get(position).getValue());
     }
 
     @Override
