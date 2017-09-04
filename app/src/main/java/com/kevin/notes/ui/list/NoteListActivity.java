@@ -1,4 +1,4 @@
-package com.kevin.notes;
+package com.kevin.notes.ui.list;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
@@ -12,7 +12,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.kevin.notes.NoteApplication;
+import com.kevin.notes.R;
 import com.kevin.notes.db.Note;
+import com.kevin.notes.db.NoteRepository;
+import com.kevin.notes.ui.CustomViewModelFactory;
+import com.kevin.notes.ui.detail.NoteDetailActivity;
 
 import java.util.List;
 
@@ -23,8 +28,10 @@ import butterknife.OnClick;
 public class NoteListActivity extends AppCompatActivity implements LifecycleRegistryOwner {
 
     private static final String TAG = NoteListActivity.class.getCanonicalName();
+
     private final LifecycleRegistry registry = new LifecycleRegistry(this);
-    private NoteAdapter noteAdapter;
+
+    private NoteListAdapter noteAdapter;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
@@ -44,8 +51,8 @@ public class NoteListActivity extends AppCompatActivity implements LifecycleRegi
         setSupportActionBar(toolbar);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        noteAdapter = new NoteAdapter();
-        noteAdapter.setOnNoteClickListener(new NoteAdapter.OnNoteClickListener() {
+        noteAdapter = new NoteListAdapter();
+        noteAdapter.setOnNoteClickListener(new NoteListAdapter.OnNoteClickListener() {
             @Override
             public void onNoteClick(Note note) {
                 openNoteDetail(note.getId());
@@ -53,11 +60,10 @@ public class NoteListActivity extends AppCompatActivity implements LifecycleRegi
         });
         recyclerView.setAdapter(noteAdapter);
 
-        NoteListViewModel viewModel = ViewModelProviders.of(this).get(NoteListViewModel.class);
-        subscribeUi(viewModel);
-    }
+        // Dependency injection
+        CustomViewModelFactory customViewModelFactory = new CustomViewModelFactory(new NoteRepository(NoteApplication.getDb().noteDao()));
 
-    private void subscribeUi(NoteListViewModel viewModel) {
+        NoteListViewModel viewModel = ViewModelProviders.of(this, customViewModelFactory).get(NoteListViewModel.class);
         viewModel.getNotes().observe(this, new Observer<List<Note>>() {
             @Override
             public void onChanged(@Nullable List<Note> notes) {

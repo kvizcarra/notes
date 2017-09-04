@@ -10,19 +10,16 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 @Dao
-public interface NoteDao {
+public interface INoteDao {
 
     @Query("SELECT * FROM note")
-    LiveData<List<Note>> loadAllNotes();
+    LiveData<List<Note>> getNotes();
 
-    @Query("SELECT * FROM note WHERE id = :id")
-    LiveData<Note> loadNote(int id);
+    @Query("SELECT * FROM note WHERE id = :noteId")
+    LiveData<Note> getNote(int noteId);
 
     @Insert
     void insertNote(Note note);
-
-    @Insert
-    void insertNotes(Note... notes);
 
     @Update
     void updateNote(Note note);
