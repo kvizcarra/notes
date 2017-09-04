@@ -1,2 +1,2 @@
 # Notes
-A [WIP] notes app written with Android Architecture Components
+A notes app written with Android Architecture Components following MVVM architecture
