@@ -1,4 +1,4 @@
-package com.kevin.notes;
+package com.kevin.notes.ui.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kevin.notes.R;
 import com.kevin.notes.db.Note;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
+class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder>{
 
     private OnNoteClickListener onNoteClickListener;
 

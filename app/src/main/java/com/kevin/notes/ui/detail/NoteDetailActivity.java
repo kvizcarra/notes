@@ -1,4 +1,4 @@
-package com.kevin.notes;
+package com.kevin.notes.ui.detail;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
@@ -16,7 +16,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.kevin.notes.NoteApplication;
+import com.kevin.notes.R;
 import com.kevin.notes.db.Note;
+import com.kevin.notes.db.NoteRepository;
+import com.kevin.notes.ui.CustomViewModelFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,22 +63,21 @@ public class NoteDetailActivity extends AppCompatActivity implements LifecycleRe
         Intent intent = getIntent();
         if (intent.getExtras() != null && intent.getExtras().containsKey(NOTE_ID)) {
             noteId = intent.getIntExtra(NOTE_ID, 0);
-            NoteDetailViewModel viewModel = ViewModelProviders.of(this).get(NoteDetailViewModel.class);
 
-            subscribeUi(viewModel);
-        }
-    }
+            // Dependency injection
+            CustomViewModelFactory customViewModelFactory = new CustomViewModelFactory(new NoteRepository(NoteApplication.getDb().noteDao()));
 
-    private void subscribeUi(NoteDetailViewModel viewModel) {
-        viewModel.getNote(noteId).observe(this, new Observer<Note>() {
-            @Override
-            public void onChanged(@Nullable Note note) {
-                if (note != null) {
-                    noteTitleEditText.setText(note.getTitle());
-                    noteValueEditText.setText(note.getValue());
+            NoteDetailViewModel viewModel = ViewModelProviders.of(this, customViewModelFactory).get(NoteDetailViewModel.class);
+            viewModel.getNote(noteId).observe(this, new Observer<Note>() {
+                @Override
+                public void onChanged(@Nullable Note note) {
+                    if (note != null) {
+                        noteTitleEditText.setText(note.getTitle());
+                        noteValueEditText.setText(note.getValue());
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
